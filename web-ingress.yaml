@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: web-ingress
+     namespace: web-odev-ns
+     annotations:
+       nginx.ingress.kubernetes.io/rewrite-target: /$1
+   spec:
+     rules:
+       - host: berkant.odev
+         http:
+           paths:
+             - path: /
+               pathType: Prefix
+               backend:
+                 service:
+                   name: webodev-service
+                   port:
+                     number: 8080
