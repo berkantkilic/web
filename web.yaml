@@ -1,0 +1,53 @@
+ ---
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: web-odev-ns
+  spec:
+    finalizers:
+      - kubernetes
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: webodev
+    namespace: web-odev-ns
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: webodev
+    template:
+      metadata:
+        labels:
+          app: webodev
+      spec:
+        nodeSelector:
+          kubernetes.io/os: linux
+        containers:
+          - name: webodev
+            image: berkantkilic/webodev:1.0
+            ports:
+              - containerPort: 8080
+            resources:
+              requests:
+                cpu: '0'
+                memory: '0'
+              limits:
+                cpu: '256'
+                memory: 11400G
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: webodev-service
+    namespace: web-odev-ns
+  spec:
+    type: LoadBalancer
+    ports:
+      - targetPort: 8080
+        name: port8080
+        port: 8080
+        protocol: TCP
+    selector:
+      app: webodev
