@@ -1,0 +1,11 @@
+[Unit]
+Description=helloscript
+[Service]
+User=john
+WorkingDirectory=/home/john/odevsh
+ExecStart=/home/john/odevsh/hello.sh
+Type=simpleTimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
